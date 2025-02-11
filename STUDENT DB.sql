@@ -255,3 +255,30 @@ begin
 end //
 delimiter ;
 call CountStudentsByDepartment();
+delimiter //
+
+-- create a procedure to update student's phone number
+create procedure UpdateStudentPhone(
+    in student_id int, 
+    in new_phone varchar(15))
+begin
+    update Students 
+    set Phone = new_phone 
+    where StudentID = student_id;
+end //
+delimiter ;
+
+call UpdateStudentPhone(1, '9998887776');
+select*from Students;
+
+delimiter //
+create procedure GetStudentsByYear(in enrollment_year int)
+begin
+    select s.StudentID, s.Name, s.Email, s.Phone, e.Year
+    from Students s
+    join Enrollment e ON s.StudentID = e.StudentID
+    where e.Year = enrollment_year;
+end //
+delimiter ;
+
+call GetStudentsByYear(2024);
